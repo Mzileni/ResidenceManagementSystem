@@ -1,6 +1,6 @@
 package com.systemsmart.factory;
 
-import com.systemsmart.entity.Complaint;
+import com.systemsmart.entity.Query;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,10 +13,10 @@ import org.junit.Test;
 */
 
 
-public class ComplaintFacTest {
+public class QueryFacTest {
     @Test
     public void ObjectEqualityTest() {
-        Complaint logComplaint = ComplaintFactory.logComplaint("Complaint", "There is a leak in the ceiling.", "Processing", "Hi, I will sort the problem out by this coming Wednesday. Thanks");
+        Query logComplaint = QueryFactory.logQuery("Complaint", "There is a leak in the ceiling.", "Processing", "Hi, I will sort the problem out by this coming Wednesday. Thanks");
         Assert.assertEquals("Complaint", logComplaint.getNature());
     }
 
@@ -31,7 +31,7 @@ public class ComplaintFacTest {
     @Ignore
     @Test
     public void testDisabled(){
-        Complaint logComplaint = ComplaintFactory.logComplaint("Complaint", "There is a leak in the ceiling.", "Processing", "Hi, I will sort the problem out by this coming Wednesday. Thanks");
+        Query logComplaint = QueryFactory.logQuery("Complaint", "There is a leak in the ceiling.", "Processing", "Hi, I will sort the problem out by this coming Wednesday. Thanks");
         Assert.assertEquals("Complaint", logComplaint.getNature());
     }
 }

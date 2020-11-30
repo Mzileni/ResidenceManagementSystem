@@ -10,99 +10,108 @@ import java.util.Objects;
     Date: 05 July 2020
 */
 @Entity
-public class Complaint implements Serializable {
-
-
+public class Query implements Serializable {
     @Id
-    private long complaintID;
+    private String queryId;
+    private String nature;
     private String description;
     private String logStatus;
-
-    protected Complaint(){}
+    private String response;
 
     //constructor
-    public Complaint(Builder builder) {
-        this.complaintID = builder.complaintID;
+    protected Query(){}
+
+    public Query(Builder builder) {
+        this.queryId = builder.queryId;
+        this.nature = builder.nature;
         this.description = builder.description;
         this.logStatus = builder.logStatus;
+        this.response = builder.response;
     }
-
 
     //Getters
-
-
-    public long getComplaintID() {
-        return complaintID;
+    public String getQueryId() {
+        return queryId;
     }
-
+    public String getNature() {
+        return nature;
+    }
     public String getDescription() {
         return description;
     }
-
     public String getLogStatus() {
         return logStatus;
+    }
+    public String getResponse() {
+        return response;
     }
 
     @Override
     public String toString() {
-        return "Complaint{" +
-                " complaintID: "+ complaintID +
-                ", description: " + description +
-                ", logStatus: " + logStatus + '\'' +
+        return "Query{" +
+                "queryId='" + queryId + '\'' +
+                ", nature='" + nature + '\'' +
+                ", description='" + description + '\'' +
+                ", logStatus='" + logStatus + '\'' +
+                ", response='" + response + '\'' +
                 '}';
     }
 
     //Builder
-
     public static class Builder{
-
-        private long complaintID;
+        private String queryId;
+        private String nature;
         private String description;
         private String logStatus;
+        private String response;
 
-        public Builder setComplaintID(long complaintID) {
-            this.complaintID = complaintID;
+        public Builder setQueryId(String queryId) {
+            this.queryId = queryId;
             return this;
         }
-
+        public Builder setNature(String nature) {
+            this.nature = nature;
+            return this;
+        }
         public Builder setDescription(String description) {
             this.description = description;
             return this;
         }
-
         public Builder setLogStatus(String logStatus) {
             this.logStatus = logStatus;
             return this;
         }
+        public Builder setResponse(String response) {
+            this.response = response;
+            return this;
+        }
 
+        public Builder copy(Query c){
 
-        public Builder copy(Complaint c){
-
-            this.complaintID = c.complaintID;
+            this.queryId = c.queryId;
+            this.nature = c.nature;
             this.description = c.description;
             this.logStatus = c.logStatus;
+            this.response = c.response;
 
             return this;
         }
 
-        public Complaint build(){
-
-            return new Complaint(this);
+        public Query build(){
+            return new Query(this);
         }
-
-
     }
 
         @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Complaint complaint = (Complaint) o;
-        return complaintID == complaint.complaintID;
+        Query query = (Query) o;
+        return queryId == query.queryId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(complaintID);
+        return Objects.hash(queryId);
     }
 }

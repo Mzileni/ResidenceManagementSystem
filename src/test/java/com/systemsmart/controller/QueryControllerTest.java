@@ -1,7 +1,7 @@
 package com.systemsmart.controller;
 
-import com.systemsmart.entity.Complaint;
-import com.systemsmart.factory.ComplaintFactory;
+import com.systemsmart.entity.Query;
+import com.systemsmart.factory.QueryFactory;
 import junit.framework.TestCase;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,19 +15,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ComplaintControllerTest extends TestCase {
+public class QueryControllerTest extends TestCase {
 
     /*
      * Author: Christ Kitenge Mbuyi <217248756@mycput.ac.za>
      * Date: 23 September 2020
      */
 
-    private static Complaint complaint = ComplaintFactory.logComplaint("Complaint", "There is a leak in the ceiling.", "", "");
+    private static Query query = QueryFactory.logQuery("Complaint", "There is a leak in the ceiling.", "", "");
 
     private static String SECURITY_USERNAME = "admin";
     private static String SECURITY_PASSWORD = "admin123";
@@ -40,38 +39,38 @@ public class ComplaintControllerTest extends TestCase {
     public void testCreate() {
         String url = baseURL + "create";
         System.out.println("URL:" + url);
-        System.out.println("Post date:" + complaint);
-        if (complaint.getLogStatus().equals(null)) {
-            complaint = new Complaint.Builder().copy(complaint).setLogStatus("Processing").build();
+        System.out.println("Post date:" + query);
+        if (query.getLogStatus().equals(null)) {
+            query = new Query.Builder().copy(query).setLogStatus("Processing").build();
         }
-        if (complaint.getNature().equals(null)) {
-            complaint = new Complaint.Builder().copy(complaint).setNature("Complaint").build();
+        if (query.getNature().equals(null)) {
+            query = new Query.Builder().copy(query).setNature("Complaint").build();
         }
-        complaint = new Complaint.Builder().copy(complaint).setNature("Complaint").setLogStatus("Processing").build();
-        System.out.println(complaint.toString());
-        ResponseEntity<Complaint> postResponse = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).postForEntity(url, complaint, Complaint.class);
+        query = new Query.Builder().copy(query).setNature("Complaint").setLogStatus("Processing").build();
+        System.out.println(query.toString());
+        ResponseEntity<Query> postResponse = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).postForEntity(url, query, Query.class);
         assertNotNull(postResponse);
         assertNotNull(postResponse.getBody());
-        complaint = postResponse.getBody();
-        System.out.println("Saved data:" + complaint);
-        assertEquals(complaint.getComplaintID(), postResponse.getBody().getComplaintID());
+        query = postResponse.getBody();
+        System.out.println("Saved data:" + query);
+        assertEquals(query.getQueryId(), postResponse.getBody().getQueryId());
     }
 
     @Test
     public void testRead() {
-        String url = baseURL + "read/" + complaint.getComplaintID();
+        String url = baseURL + "read/" + query.getQueryId();
         System.out.println("URL: " + url);
-        ResponseEntity<Complaint> response = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).getForEntity(url, Complaint.class);
+        ResponseEntity<Query> response = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).getForEntity(url, Query.class);
 
     }
     @Test
     public void testUpdate() {
-        Complaint updated = new Complaint.Builder().copy(complaint).setComplaintID("2200").build();
+        Query updated = new Query.Builder().copy(query).setQueryId("2200").build();
         String url = baseURL + "update";
         System.out.println("URL: " + url);
-        System.out.println("Previous ID: " + complaint.getComplaintID());
-        System.out.println("New ID: " + updated.getComplaintID());
-        ResponseEntity<Complaint> response = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).postForEntity(url, updated, Complaint.class);
+        System.out.println("Previous ID: " + query.getQueryId());
+        System.out.println("New ID: " + updated.getQueryId());
+        ResponseEntity<Query> response = restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).postForEntity(url, updated, Query.class);
 
     }
 
@@ -88,7 +87,7 @@ public class ComplaintControllerTest extends TestCase {
 
     @Test
     public void testDelete() {
-        String url = baseURL + "delete/" +complaint.getComplaintID();
+        String url = baseURL + "delete/" + query.getQueryId();
         System.out.println("URL: " + url);
         restTemplate.withBasicAuth(SECURITY_USERNAME, SECURITY_PASSWORD).delete(url);
     }

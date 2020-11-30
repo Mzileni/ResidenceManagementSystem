@@ -1,8 +1,8 @@
 package com.systemsmart.service.impl;
 
-import com.systemsmart.entity.Complaint;
-import com.systemsmart.repository.ComplaintRepository;
-import com.systemsmart.service.ComplaintService;
+import com.systemsmart.entity.Query;
+import com.systemsmart.repository.QueryRepository;
+import com.systemsmart.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ComplaintServiceImpl implements ComplaintService {
+public class QueryServiceImpl implements QueryService {
 
     /*
      * Author: Christ Kitenge Mbuyi <217248756@mycput.ac.za>
@@ -18,25 +18,25 @@ public class ComplaintServiceImpl implements ComplaintService {
      * Date: 03 September 2020
      */
 
-    private static ComplaintService service = null;
+    private static QueryService service = null;
     @Autowired
-    private ComplaintRepository repository;
-
+    private QueryRepository repository;
 
     @Override
-    public Complaint create(Complaint c) {
-        return this.repository.save(c);
+    public Query create(Query c) {
+        Query newQuery = new Query.Builder().copy(c).setLogStatus("Processing").build();
+        return this.repository.save(newQuery);
     }
 
     @Override
-    public Complaint read(String r) {
+    public Query read(String r) {
         return this.repository.findById(r).orElseGet(null);
     }
 
     @Override
-    public Complaint update(Complaint u) {
+    public Query update(Query u) {
 
-        if (this.repository.existsById(u.getLogStatus())){
+        if (this.repository.existsById(u.getQueryId())){
             return this.repository.save(u);
         }
         return null;
@@ -50,9 +50,13 @@ public class ComplaintServiceImpl implements ComplaintService {
         else return true;
     }
 
+    @Override
+    public void addResponse() {
+
+    }
 
     @Override
-    public Set<Complaint> retrieve() {
+    public Set<Query> retrieve() {
         return this.repository.findAll().stream().collect(Collectors.toSet());
     }
 

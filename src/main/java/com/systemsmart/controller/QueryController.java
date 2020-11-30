@@ -1,46 +1,46 @@
 package com.systemsmart.controller;
 
-import com.systemsmart.entity.Complaint;
-import com.systemsmart.factory.ComplaintFactory;
-import com.systemsmart.service.impl.ComplaintServiceImpl;
+import com.systemsmart.entity.Query;
+import com.systemsmart.factory.QueryFactory;
+import com.systemsmart.service.impl.QueryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
-@RequestMapping("/complaint")
-public class ComplaintController {
+@RequestMapping("/query")
+public class QueryController {
 
     /*
      * Author: Christ Kitenge Mbuyi <217248756@mycput.ac.za>
      * Date: 23 September 2020
      */
     @Autowired
-    private ComplaintServiceImpl service;
+    private QueryServiceImpl service;
 
     //create
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Complaint create(@RequestBody Complaint c){
-        Complaint complaint = ComplaintFactory.logComplaint(c.getComplaintID(), c.getDescription(), c.getLogStatus());
-        return service.create(complaint);
+    public Query create(@RequestBody Query c){
+        Query query = QueryFactory.logQuery(c.getNature(), c.getDescription(), c.getLogStatus(), c.getResponse());
+        return service.create(query);
     }
 
     //read
     @GetMapping("/read/{id}")
-    public Complaint read(@PathVariable String id){
+    public Query read(@PathVariable String id){
         return service.read(id);
     }
 
     //update
     @PostMapping ("/update")
-    public Complaint update(@RequestBody Complaint complaint){
-        return service.update(complaint);
+    public Query update(@RequestBody Query query){
+        return service.update(query);
     }
 
     //getAll
     @GetMapping("/all")
-    public Set<Complaint> getall(){
+    public Set<Query> getall(){
         return service.retrieve();
     }
 
